@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>SISTEMA DE SEGURIDAD ESTATAL - ACCESO REMOTO</title>
+    <style>
+        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; padding: 20px; font-size: 14px; line-height: 1.2; }
+        .terminal { max-width: 800px; margin: auto; }
+        .alert { color: #f00; font-weight: bold; text-decoration: blink; }
+        .loading-bar { width: 0%; background: #0f0; height: 10px; margin: 10px 0; transition: width 0.5s; }
+        .russian { color: #555; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <p class="russian">Подключение к удаленному серверу... УСТАНОВЛЕНО.</p>
+        <p>[SISTEMA] Iniciando protocolo de extracción de metadatos...</p>
+        <p>[SISTEMA] IP Local detectada: <span id="ip">192.168.1.45</span></p>
+        <p>[SISTEMA] Accediendo a archivos de WhatsApp (.db)... <span class="alert">ÉXITO</span></p>
+        <p class="russian">Скачивание контактов и сообщений...</p>
+        
+        <div id="log"></div>
+        <div class="loading-bar" id="bar"></div>
+        <p id="status">EXTRAYENDO: 0%</p>
+
+        <p class="alert" id="final-msg" style="display:none;">⚠️ ERROR CRÍTICO: El dispositivo ha sido bloqueado por seguridad estatal.</p>
+    </div>
+
+    <script>
+        const logs = [
+            "Descargando historial de ubicación (Google Maps)...",
+            "Sincronizando galería de fotos (DCIM/Camera)...",
+            "Obteniendo contr
+
