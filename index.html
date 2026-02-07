@@ -22,5 +22,80 @@
 
     <div class="terminal">
         <p class="russian">Подключение к удаленному серверу... УСТАНОВЛЕНО.</p>
-        <p class="russian">Протокол об
+        <p class="russian">Протокол обхода брандмауэра активирован.</p>
+        <p>------------------------------------------------------------</p>
+        <p>[SISTEMA] Iniciando protocolo de extracción masiva...</p>
+        <p>[SISTEMA] IP detectada: <span id="ip-sim">185.12.44.102</span></p>
+        <p>[SISTEMA] Accediendo a base de datos de WhatsApp... <span class="alert">ÉXITO</span></p>
+        
+        <div id="log"></div>
+        <div class="loading-bar" id="bar"></div>
+        <p id="status" style="font-size: 20px;">EXTRAYENDO DATOS: 0%</p>
 
+        <p class="alert" id="final-msg" style="display:none; font-size: 24px;">⚠️ DISPOSITIVO COMPROMETIDO: DATOS ENVIADOS A MOSCÚ_SEC_01</p>
+    </div>
+
+    <script>
+        // --- EFECTO MATRIX ---
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const letters = "0101010101010101ABCDEFАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const drops = Array(Math.floor(columns)).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "#0f0";
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 50);
+
+        // --- LÓGICA DE LA TERMINAL ---
+        const logs = [
+            "Descargando lista de contactos...",
+            "Accediendo a imágenes privadas (DCIM)...",
+            "Подключение к микрофону... OK.",
+            "Obteniendo historial de Google Chrome...",
+            "Extrayendo tokens de Discord/Instagram...",
+            "Cifrando archivos del sistema para bloqueo...",
+            "Enviando archivos comprimidos .tar.gz...",
+            "Блокировка устройства завершена."
+        ];
+
+        let logIndex = 0;
+        let progress = 0;
+
+        function updateTerminal() {
+            if (logIndex < logs.length) {
+                const p = document.createElement("p");
+                p.innerHTML = `<span style="color:white">></span> ${logs[logIndex]}`;
+                document.getElementById("log").appendChild(p);
+                logIndex++;
+                
+                progress += 12.5;
+                document.getElementById("bar").style.width = progress + "%";
+                document.getElementById("status").textContent = "EXTRAYENDO DATOS: " + Math.floor(progress) + "%";
+                
+                setTimeout(updateTerminal, 2000);
+            } else {
+                document.getElementById("bar").style.backgroundColor = "red";
+                document.getElementById("status").style.color = "red";
+                document.getElementById("status").textContent = "ESTADO: DATOS ROBADOS";
+                document.getElementById("final-msg").style.display = "block";
+            }
+        }
+        setTimeout(updateTerminal, 1500);
+    </script>
+</body>
+</html>
