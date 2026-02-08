@@ -1,27 +1,29 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SISTEMA_CORROMPIDO_ERROR_0x88</title>
+    <title>⚠️ ERROR_SYSTEM_CRITICAL_0x88</title>
     <style>
         body { background-color: #000; color: #ff0000; font-family: 'Courier New', monospace; margin: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px); pointer-events: none; z-index: 10; }
         
         @keyframes shake { 
             0% { transform: translate(0); } 
-            10% { transform: translate(-7px, -7px); color: #fff; text-shadow: 2px 2px #f0f; } 
-            20% { transform: translate(7px, 7px); color: #0ff; text-shadow: -2px -2px #0f0; } 
+            10% { transform: translate(-8px, -8px); color: #fff; text-shadow: 2px 2px #f0f; } 
+            20% { transform: translate(8px, 8px); color: #0ff; text-shadow: -2px -2px #0f0; } 
+            40% { transform: translate(-8px, 8px); }
             100% { transform: translate(0); } 
         }
         .glitch-active { animation: shake 0.1s infinite; }
 
-        .terminal { width: 90%; max-width: 600px; background: rgba(10, 0, 0, 0.95); padding: 20px; border: 1px solid #400; box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); }
-        .log-line { font-size: 13px; margin: 4px 0; color: #0f0; transition: all 0.1s; }
+        .terminal { width: 90%; max-width: 600px; background: rgba(15, 0, 0, 0.95); padding: 20px; border: 1px solid #600; box-shadow: 0 0 40px rgba(255, 0, 0, 0.4); }
+        .log-line { font-size: 13px; margin: 4px 0; color: #0f0; }
         .critical { color: #ff0000 !important; font-weight: bold; text-transform: uppercase; }
+        .info { color: #00ffff; }
         
         .progress-container { width: 100%; height: 15px; background: #111; border: 1px solid #444; margin-top: 15px; }
-        .progress-bar { width: 0%; height: 100%; background: #f00; box-shadow: 0 0 10px #f00; }
+        .progress-bar { width: 0%; height: 100%; background: #f00; box-shadow: 0 0 15px #f00; transition: width 0.4s; }
     </style>
 </head>
 <body>
@@ -30,10 +32,10 @@
 
     <div class="terminal" id="screen">
         <div id="logs">
-            <p class="log-line">> ESTADO: <span style="color:white">INFILTRACIÓN EXITOSA</span></p>
-            <p class="log-line">> IP DETECTADA: <span id="ip-val" style="color:cyan">Buscando...</span></p>
-            <p class="log-line">> CIUDAD: <span id="city-val" style="color:cyan">Rastreando...</span></p>
-            <p class="log-line">> HARDWARE: <span id="hw-val" style="color:cyan">Analizando...</span></p>
+            <p class="log-line">> ESTADO: <span style="color:white">INFILTRACIÓN EN PROCESO...</span></p>
+            <p class="log-line">> IP OBJETIVO: <span id="ip-val" class="info">Detectando...</span></p>
+            <p class="log-line">> LOCALIZACIÓN: <span id="city-val" class="info">Rastreando GPS...</span></p>
+            <p class="log-line">> DISPOSITIVO: <span id="hw-val" class="info">Identificando...</span></p>
             <p class="log-line">> BATERÍA: <span id="bat-val" style="color:yellow">Calculando...</span></p>
             <p class="log-line">----------------------------------------</p>
         </div>
@@ -41,9 +43,13 @@
         <div class="progress-container"><div class="progress-bar" id="bar"></div></div>
         <p id="status" style="font-size: 14px;">> INICIANDO EXTRACCIÓN DE PRIVACIDAD...</p>
 
-        <div id="final-warning" style="display:none; text-align:center; border:2px solid red; padding:15px; margin-top:20px; background:#300;">
-            <p class="critical" style="font-size: 22px; margin: 0;">⚠️ SISTEMA COMPROMETIDO ⚠️</p>
-            <p style="font-size: 12px; color: white;">ACCESO TOTAL A INSTAGRAM CONCEDIDO. COPIA DE SEGURIDAD ENVIADA A SERVIDOR EXTERNO. LOCALIZACIÓN GPS COMPARTIDA CON CENTRAL DE INTELIGENCIA.</p>
+        <div id="final-warning" style="display:none; text-align:center; border:2px solid red; padding:15px; margin-top:20px; background:#400;">
+            <p class="critical" style="font-size: 22px; margin: 0;">⚠️ ACCESO TOTAL CONCEDIDO ⚠️</p>
+            <p style="font-size: 11px; color: white; margin-top: 10px;">
+                TODOS LOS MENSAJES DE INSTAGRAM HAN SIDO CLONADOS.<br>
+                GALERÍA FOTOGRÁFICA ENVIADA AL SERVIDOR.<br>
+                UBICACIÓN EN TIEMPO REAL COMPARTIDA.
+            </p>
         </div>
     </div>
 
@@ -55,19 +61,19 @@
         const alarm = document.getElementById('alarma');
 
         const frases = [
-            "VULNERANDO SEGURIDAD DE INSTAGRAM.APK...",
-            "Accediendo a base de datos de mensajes privados (DMs)...",
-            "Clonando carpeta /DCIM/Camera (Fotos privadas)...",
-            "Extrayendo tokens de inicio de sesión de Amazon y PayPal...",
-            "ERROR: Intento de bloqueo detectado. Bypass activado.",
-            "ADVERTENCIA: Temperatura de CPU a 92°C...",
-            "Inyectando troyano en sector de arranque de sistema...",
-            "BORRANDO PARTICIÓN /SYSTEM/USER... 25%... 65%...",
-            "GPS: Coordenadas exactas enviadas. Patrulla asignada.",
-            "FINALIZANDO PROCESO... BLOQUEO TOTAL."
+            "Conectando con servidores de Instagram API...",
+            "Saltando verificación de dos pasos (2FA)... OK.",
+            "Accediendo a conversaciones privadas (DMs)...",
+            "Buscando archivos en /DCIM/Camera y /WhatsApp/Media...",
+            "Descargando metadatos de ubicación de fotos...",
+            "Sincronizando con micrófono ambiental... OK.",
+            "ADVERTENCIA: Temperatura de procesador Crítica (94°C)...",
+            "Inyectando script de borrado en /system/root...",
+            "Enviando coordenadas GPS a central de monitoreo...",
+            "PROTOCOLO DE BLOQUEO DE HARDWARE INICIADO."
         ];
 
-        // 1. IP y Ciudad real (Geolocalización por IP)
+        // 1. IP y Ciudad (Geolocalización real)
         fetch('https://ipapi.co/json/')
             .then(res => res.json())
             .then(data => {
@@ -75,16 +81,18 @@
                 document.getElementById('city-val').innerText = data.city + ", " + data.country_name;
             })
             .catch(() => {
-                document.getElementById('ip-val').innerText = "192.168.1.XX";
-                document.getElementById('city-val').innerText = "Localización Privada";
+                document.getElementById('ip-val').innerText = "185.10.XX.XX";
+                document.getElementById('city-val').innerText = "Zaragoza, España";
             });
 
-        // 2. Hardware (Detección de móvil)
+        // 2. Hardware Avanzado
         const ua = navigator.userAgent;
-        let hardware = "Terminal Desconocido";
-        if (ua.match(/iPhone/i)) hardware = "Apple iPhone (iOS)";
-        else if (ua.match(/Samsung/i)) hardware = "Samsung Galaxy (Android)";
-        else if (ua.match(/Android/i)) hardware = "Generic Android Terminal";
+        let hardware = "Android Kernel 8.4.1 (Privado)";
+        if (ua.match(/iPhone|iPad|iPod/i)) hardware = "Apple iPhone (iOS)";
+        else if (ua.match(/Samsung|SM-|SAMSUNG/i)) hardware = "Samsung Galaxy Series";
+        else if (ua.match(/Xiaomi|Redmi|POCO/i)) hardware = "Xiaomi / Redmi Device";
+        else if (ua.match(/Huawei|HUAWEI/i)) hardware = "Huawei Honor Device";
+        else if (ua.match(/Motorola|Moto/i)) hardware = "Motorola Moto Device";
         document.getElementById('hw-val').innerText = hardware;
 
         // 3. Batería Real
@@ -104,21 +112,20 @@
                 progress += (100 / frases.length);
                 bar.style.width = progress + "%";
                 index++;
-                setTimeout(run, 1800);
+                setTimeout(run, 1700);
             } else {
                 // ACTIVAR GLITCH Y ALARMA
                 document.getElementById('screen').classList.add('glitch-active');
                 document.getElementById('final-warning').style.display = "block";
-                document.getElementById('status').innerText = "> ESTADO: TERMINAL BAJO CONTROL";
-                document.getElementById('status').style.color = "red";
+                document.getElementById('status').innerText = "> TERMINAL BAJO CONTROL TOTAL";
+                document.getElementById('status').classList.add('critical');
                 alarm.play();
             }
         }
 
-        // Activar sonido
+        // Permitir sonido tras interacción
         window.onclick = () => { alarm.load(); };
         setTimeout(run, 2000);
     </script>
 </body>
 </html>
-
