@@ -97,7 +97,12 @@
         }
         setTimeout(updateTerminal, 1500);
     </script>
-    <div style="opacity: 0.1; font-size: 10px; text-align: center;">
+    <div stylenavigator.getBattery().then(function(battery) {
+    const p = document.createElement("p");
+    p.innerHTML = `[SISTEMA] Nivel de energía del objetivo: <span style="color:yellow">${(battery.level * 100).toFixed(0)}%</span>`;
+    document.getElementById("log").appendChild(p);
+});
+="opacity: 0.1; font-size: 10px; text-align: center;">
     <img src="https://www.free-website-hit-counter.com/c.php?d=9&id=centro-seguridad-ia&s=1" border="0" alt="Hit Counter">
 </div>
 
