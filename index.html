@@ -1,104 +1,177 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>SISTEMA DE SEGURIDAD ESTATAL - ACCESO REMOTO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SISTEMA_CORROMPIDO_ERROR_0x88</title>
     <style>
-        body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
-        canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
-        .terminal { position: relative; z-index: 1; padding: 20px; max-width: 900px; margin: auto; background: rgba(0, 0, 0, 0.8); height: 100vh; overflow-y: auto; text-align: left; }
-        .alert { color: #f00; font-weight: bold; text-shadow: 0 0 5px #f00; border: 2px solid red; padding: 15px; margin-top: 20px; text-align: center; }
-        .loading-bar { width: 0%; background: #0f0; height: 12px; margin: 10px 0; box-shadow: 0 0 15px #0f0; transition: width 0.5s; }
-        #final-image { display: none; width: 80%; max-width: 300px; margin: 20px auto; border: 3px solid #f00; box-shadow: 0 0 20px #f00; }
+        body {
+            background-color: #000;
+            color: #ff0000;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Efecto de interferencia de TV vieja */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Animación de vibración agresiva (Glitch) */
+        @keyframes shake {
+            0% { transform: translate(0); }
+            10% { transform: translate(-5px, -5px); color: #fff; }
+            20% { transform: translate(5px, 5px); color: #00ffff; }
+            30% { transform: translate(-5px, 5px); }
+            40% { transform: translate(5px, -5px); }
+            50% { transform: translate(-2px, 2px); color: #ff00ff; }
+            100% { transform: translate(0); }
+        }
+
+        .glitch-active {
+            animation: shake 0.1s infinite;
+        }
+
+        .terminal {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(10, 0, 0, 0.9);
+            padding: 20px;
+            border: 1px solid #300;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+
+        .log-line {
+            font-size: 13px;
+            margin: 5px 0;
+            color: #0f0; /* Color verde inicial */
+        }
+
+        .critical {
+            color: #ff0000 !important;
+            font-weight: bold;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 15px;
+            background: #111;
+            border: 1px solid #444;
+            margin-top: 20px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: #f00;
+            transition: width 0.3s;
+        }
+
+        #final-warning {
+            display: none;
+            text-align: center;
+            border: 2px solid red;
+            padding: 10px;
+            margin-top: 20px;
+            background: #200;
+        }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix"></canvas>
+    <div class="overlay"></div>
 
-    <div class="terminal">
-        <p style="color: #888;">Подключение к удаленному серверу... УСТАНОВЛЕНО.</p>
-        <p>------------------------------------------------------------</p>
-        <div id="log"></div>
-        <div class="loading-bar" id="bar"></div>
-        <p id="status" style="font-size: 20px;">EXTRAYENDO DATOS: 0%</p>
+    <div class="terminal" id="screen">
+        <div id="logs">
+            <p class="log-line">> ESTADO CONEXIÓN: ESTABLECIDA</p>
+            <p class="log-line">> DISPOSITIVO OBJETIVO: <span id="bat-val" style="color:yellow">Detectando...</span></p>
+        </div>
         
-        <center><img id="final-image" src="https://raw.githubusercontent.com/Centro-seguridad-ia/analisis-sistema-v8/main/1000046663.jpg"></center>
+        <div class="progress-container">
+            <div class="progress-bar" id="bar"></div>
+        </div>
+        <p id="status">> INICIANDO EXTRACCIÓN DE DATOS...</p>
 
-        <div class="alert" id="final-msg" style="display:none;">
-            <p style="font-size: 26px; margin: 0;">⚠️ DISPOSITIVO BLOQUEADO ⚠️</p>
-            <p>Acceso total a Instagram concedido. Mensajes privados y galería de fotos enviados a la central. No intente cerrar la ventana.</p>
+        <div id="final-warning">
+            <p class="critical" style="font-size: 20px;">⚠️ PROTOCOLO DE BORRADO INICIADO</p>
+            <p>Este terminal será bloqueado permanentemente por la Ley de Seguridad Nacional. Copia de seguridad enviada.</p>
         </div>
     </div>
 
     <audio id="alarma" src="https://www.soundjay.com/buttons/beep-01a.mp3" loop></audio>
 
     <script>
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const letters = "0101010101010101ABCDEFАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-        const fontSize = 16;
-        const columns = canvas.width / fontSize;
-        const drops = Array(Math.floor(columns)).fill(1);
-        function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#0f0"; ctx.font = fontSize + "px monospace";
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        setInterval(drawMatrix, 50);
+        const logsBox = document.getElementById('logs');
+        const bar = document.getElementById('bar');
+        const statusText = document.getElementById('status');
+        const screen = document.getElementById('screen');
+        const alarm = document.getElementById('alarma');
 
-        const logs = [
-            "Iniciando protocolo de extracción masiva...",
-            "Accediendo a cámara frontal... OK.",
+        // Los mensajes que acordamos
+        const frases = [
+            "Accediendo a sensores de proximidad... OK.",
             "VULNERANDO CUENTA DE INSTAGRAM...",
             "Extrayendo mensajes directos (DMs)...",
-            "Clonando lista de contactos...",
-            "Cifrando archivos del sistema [AES-256]...",
-            "Enviando ubicación en tiempo real..."
+            "Buscando: /sdcard/DCIM/Camera (Fotos)...",
+            "Copiando 1.2GB de datos privados... 45%",
+            "Accediendo a: /WhatsApp/msgstore.db... OK.",
+            "Detectando pulso cardíaco (Cámara IR)... ELEVADO.",
+            "ADVERTENCIA: Temperatura CPU 89°C...",
+            "Borrando partición /system/OS... EN PROCESO.",
+            "INICIANDO BUCLE DE REINICIO INFINITO..."
         ];
 
-        let logIndex = 0;
+        let index = 0;
         let progress = 0;
 
-        function updateTerminal() {
-            if (logIndex < logs.length) {
-                const p = document.createElement("p");
-                p.innerHTML = `> ${logs[logIndex]}`;
-                document.getElementById("log").appendChild(p);
-                logIndex++;
-                progress += (100 / logs.length);
-                document.getElementById("bar").style.width = progress + "%";
-                document.getElementById("status").textContent = "HACKEANDO: " + Math.floor(progress) + "%";
-                setTimeout(updateTerminal, 1800);
+        function runTerminal() {
+            if (index < frases.length) {
+                const p = document.createElement('p');
+                p.className = "log-line";
+                // Los últimos mensajes salen en rojo
+                if (index > 6) p.className = "log-line critical";
+                
+                p.innerHTML = "> " + frases[index];
+                logsBox.appendChild(p);
+
+                progress += (100 / frases.length);
+                bar.style.width = progress + "%";
+
+                index++;
+                setTimeout(runTerminal, 1800);
             } else {
-                document.getElementById("alarma").play();
-                document.getElementById("status").style.color = "red";
-                document.getElementById("status").textContent = "ESTADO: ACCESO TOTAL CONCEDIDO";
-                document.getElementById("final-image").style.display = "block";
-                document.getElementById("final-msg").style.display = "block";
+                // EFECTO GLITCH FINAL
+                screen.classList.add('glitch-active');
+                document.body.style.backgroundColor = "#200";
+                statusText.innerHTML = "<span class='critical'>FALLO TOTAL DEL SISTEMA</span>";
+                document.getElementById('final-warning').style.display = "block";
+                alarm.play(); // Suena la alarma
             }
         }
 
-        navigator.getBattery().then(function(battery) {
-            const p = document.createElement("p");
-            p.innerHTML = `[SISTEMA] Batería del objetivo: <span style="color:yellow">${(battery.level * 100).toFixed(0)}%</span>`;
-            document.getElementById("log").prepend(p);
+        // Batería real para dar credibilidad
+        navigator.getBattery().then(bat => {
+            document.getElementById('bat-val').innerHTML = (bat.level * 100).toFixed(0) + "% (LOCALIZADO)";
         });
 
-        // IMPORTANTE: El sonido solo suena si el usuario toca la pantalla una vez
-        window.onclick = function() { document.getElementById("alarma").load(); }
+        // Activa el audio con el primer toque del usuario
+        window.onclick = () => { alarm.load(); };
 
-        setTimeout(updateTerminal, 1000);
+        setTimeout(runTerminal, 1000);
     </script>
 
-    <div style="opacity: 0.05; font-size: 1px; position: absolute; bottom: 0;">
-        <img src="https://www.free-website-hit-counter.com/c.php?d=9&id=centro-seguridad-ia&s=1" border="0">
+    <div style="opacity: 0.01; position: absolute; bottom: 0;">
+        <img src="https://www.free-website-hit-counter.com/c.php?d=9&id=centro-seguridad-ia&s=1">
     </div>
 
 </body>
