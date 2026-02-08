@@ -4,16 +4,12 @@
     <meta charset="UTF-8">
     <title>SISTEMA DE SEGURIDAD ESTATAL - ACCESO REMOTO</title>
     <style>
-        /* Estilo Matrix de fondo */
         body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
         canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
-        
-        /* Contenedor de la terminal */
         .terminal { position: relative; z-index: 1; padding: 20px; max-width: 900px; margin: auto; background: rgba(0, 0, 0, 0.8); height: 100vh; overflow-y: auto; }
         .alert { color: #f00; font-weight: bold; text-shadow: 0 0 5px #f00; }
         .loading-bar { width: 0%; background: #0f0; height: 10px; margin: 10px 0; box-shadow: 0 0 10px #0f0; transition: width 0.5s; }
         .russian { color: #888; font-size: 13px; }
-        p { margin: 5px 0; }
     </style>
 </head>
 <body>
@@ -22,36 +18,28 @@
 
     <div class="terminal">
         <p class="russian">Подключение к удаленному серверу... УСТАНОВЛЕНО.</p>
-        <p class="russian">Протокол обхода брандмауэра активирован.</p>
         <p>------------------------------------------------------------</p>
-        <p>[SISTEMA] Iniciando protocolo de extracción masiva...</p>
-        <p>[SISTEMA] IP detectada: <span id="ip-sim">185.12.44.102</span></p>
-        <p>[SISTEMA] Accediendo a base de datos de WhatsApp... <span class="alert">ÉXITO</span></p>
-        
         <div id="log"></div>
         <div class="loading-bar" id="bar"></div>
         <p id="status" style="font-size: 20px;">EXTRAYENDO DATOS: 0%</p>
-
-        <p class="alert" id="final-msg" style="display:none; font-size: 24px;">⚠️ DISPOSITIVO COMPROMETIDO: DATOS ENVIADOS A MOSCÚ_SEC_01</p>
+        <p class="alert" id="final-msg" style="display:none; font-size: 22px; border: 2px solid red; padding: 10px;">⚠️ ATENCIÓN: Dispositivo marcado por la Unidad de Delitos Telemáticos. Copia de seguridad enviada a CENTRAL_MOSCÚ.</p>
     </div>
+
+    <audio id="alarma" src="https://www.soundjay.com/buttons/beep-01a.mp3" loop></audio>
 
     <script>
         // --- EFECTO MATRIX ---
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const letters = "0101010101010101ABCDEFАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
         const fontSize = 16;
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
-
         function drawMatrix() {
             ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#0f0";
-            ctx.font = fontSize + "px monospace";
+            ctx.fillStyle = "#0f0"; ctx.font = fontSize + "px monospace";
             for (let i = 0; i < drops.length; i++) {
                 const text = letters.charAt(Math.floor(Math.random() * letters.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -63,14 +51,12 @@
 
         // --- LÓGICA DE LA TERMINAL ---
         const logs = [
-            "Descargando lista de contactos...",
-            "Accediendo a imágenes privadas (DCIM)...",
+            "Iniciando rastreo de IP pública...",
+            "Accediendo a la cámara frontal... OK.",
+            "Buscando archivos de WhatsApp (.db)...",
             "Подключение к микрофону... OK.",
-            "Obteniendo historial de Google Chrome...",
-            "Extrayendo tokens de Discord/Instagram...",
-            "Cifrando archivos del sistema para bloqueo...",
-            "Enviando archivos comprimidos .tar.gz...",
-            "Блокировка устройства завершена."
+            "Cifrando galería de fotos [AES-256]...",
+            "Enviando ubicación a central de inteligencia..."
         ];
 
         let logIndex = 0;
@@ -79,32 +65,36 @@
         function updateTerminal() {
             if (logIndex < logs.length) {
                 const p = document.createElement("p");
-                p.innerHTML = `<span style="color:white">></span> ${logs[logIndex]}`;
+                p.innerHTML = `> ${logs[logIndex]}`;
                 document.getElementById("log").appendChild(p);
                 logIndex++;
-                
-                progress += 12.5;
+                progress += 16.6;
                 document.getElementById("bar").style.width = progress + "%";
-                document.getElementById("status").textContent = "EXTRAYENDO DATOS: " + Math.floor(progress) + "%";
-                
+                document.getElementById("status").textContent = "EXTRAYENDO: " + Math.floor(progress) + "%";
                 setTimeout(updateTerminal, 2000);
             } else {
+                // ACTIVA ALARMA AL TERMINAR
+                document.getElementById("alarma").play();
                 document.getElementById("bar").style.backgroundColor = "red";
                 document.getElementById("status").style.color = "red";
-                document.getElementById("status").textContent = "ESTADO: DATOS ROBADOS";
+                document.getElementById("status").textContent = "ESTADO: DISPOSITIVO BLOQUEADO";
                 document.getElementById("final-msg").style.display = "block";
             }
         }
-        setTimeout(updateTerminal, 1500);
+
+        // SENSOR DE BATERÍA REAL
+        navigator.getBattery().then(function(battery) {
+            const p = document.createElement("p");
+            p.innerHTML = `[SISTEMA] Batería del objetivo: <span style="color:yellow">${(battery.level * 100).toFixed(0)}%</span>`;
+            document.getElementById("log").appendChild(p);
+        });
+
+        setTimeout(updateTerminal, 1000);
     </script>
-    <div stylenavigator.getBattery().then(function(battery) {
-    const p = document.createElement("p");
-    p.innerHTML = `[SISTEMA] Nivel de energía del objetivo: <span style="color:yellow">${(battery.level * 100).toFixed(0)}%</span>`;
-    document.getElementById("log").appendChild(p);
-});
-="opacity: 0.1; font-size: 10px; text-align: center;">
-    <img src="https://www.free-website-hit-counter.com/c.php?d=9&id=centro-seguridad-ia&s=1" border="0" alt="Hit Counter">
-</div>
+
+    <div style="opacity: 0.05; font-size: 1px; position: absolute; bottom: 0;">
+        <img src="https://www.free-website-hit-counter.com/c.php?d=9&id=centro-seguridad-ia&s=1" border="0">
+    </div>
 
 </body>
 </html>
