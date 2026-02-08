@@ -5,86 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SISTEMA_CORROMPIDO_ERROR_0x88</title>
     <style>
-        body {
-            background-color: #000;
-            color: #ff0000;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+        body { background-color: #000; color: #ff0000; font-family: 'Courier New', monospace; margin: 0; height: 100vh; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px); pointer-events: none; z-index: 10; }
+        
+        @keyframes shake { 
+            0% { transform: translate(0); } 
+            10% { transform: translate(-7px, -7px); color: #fff; text-shadow: 2px 2px #f0f; } 
+            20% { transform: translate(7px, 7px); color: #0ff; text-shadow: -2px -2px #0f0; } 
+            100% { transform: translate(0); } 
         }
+        .glitch-active { animation: shake 0.1s infinite; }
 
-        /* Efecto de interferencia de TV vieja */
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 1px, transparent 1px, transparent 2px);
-            pointer-events: none;
-            z-index: 10;
-        }
-
-        /* Animación de vibración agresiva (Glitch) */
-        @keyframes shake {
-            0% { transform: translate(0); }
-            10% { transform: translate(-5px, -5px); color: #fff; }
-            20% { transform: translate(5px, 5px); color: #00ffff; }
-            30% { transform: translate(-5px, 5px); }
-            40% { transform: translate(5px, -5px); }
-            50% { transform: translate(-2px, 2px); color: #ff00ff; }
-            100% { transform: translate(0); }
-        }
-
-        .glitch-active {
-            animation: shake 0.1s infinite;
-        }
-
-        .terminal {
-            width: 90%;
-            max-width: 600px;
-            background: rgba(10, 0, 0, 0.9);
-            padding: 20px;
-            border: 1px solid #300;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
-        }
-
-        .log-line {
-            font-size: 13px;
-            margin: 5px 0;
-            color: #0f0; /* Color verde inicial */
-        }
-
-        .critical {
-            color: #ff0000 !important;
-            font-weight: bold;
-        }
-
-        .progress-container {
-            width: 100%;
-            height: 15px;
-            background: #111;
-            border: 1px solid #444;
-            margin-top: 20px;
-        }
-
-        .progress-bar {
-            width: 0%;
-            height: 100%;
-            background: #f00;
-            transition: width 0.3s;
-        }
-
-        #final-warning {
-            display: none;
-            text-align: center;
-            border: 2px solid red;
-            padding: 10px;
-            margin-top: 20px;
-            background: #200;
-        }
+        .terminal { width: 90%; max-width: 600px; background: rgba(10, 0, 0, 0.95); padding: 20px; border: 1px solid #400; box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); }
+        .log-line { font-size: 13px; margin: 4px 0; color: #0f0; transition: all 0.1s; }
+        .critical { color: #ff0000 !important; font-weight: bold; text-transform: uppercase; }
+        
+        .progress-container { width: 100%; height: 15px; background: #111; border: 1px solid #444; margin-top: 15px; }
+        .progress-bar { width: 0%; height: 100%; background: #f00; box-shadow: 0 0 10px #f00; }
     </style>
 </head>
 <body>
@@ -93,18 +30,20 @@
 
     <div class="terminal" id="screen">
         <div id="logs">
-            <p class="log-line">> ESTADO CONEXIÓN: ESTABLECIDA</p>
-            <p class="log-line">> DISPOSITIVO OBJETIVO: <span id="bat-val" style="color:yellow">Detectando...</span></p>
+            <p class="log-line">> ESTADO: <span style="color:white">INFILTRACIÓN EXITOSA</span></p>
+            <p class="log-line">> IP DETECTADA: <span id="ip-val" style="color:cyan">Buscando...</span></p>
+            <p class="log-line">> CIUDAD: <span id="city-val" style="color:cyan">Rastreando...</span></p>
+            <p class="log-line">> HARDWARE: <span id="hw-val" style="color:cyan">Analizando...</span></p>
+            <p class="log-line">> BATERÍA: <span id="bat-val" style="color:yellow">Calculando...</span></p>
+            <p class="log-line">----------------------------------------</p>
         </div>
         
-        <div class="progress-container">
-            <div class="progress-bar" id="bar"></div>
-        </div>
-        <p id="status">> INICIANDO EXTRACCIÓN DE DATOS...</p>
+        <div class="progress-container"><div class="progress-bar" id="bar"></div></div>
+        <p id="status" style="font-size: 14px;">> INICIANDO EXTRACCIÓN DE PRIVACIDAD...</p>
 
-        <div id="final-warning">
-            <p class="critical" style="font-size: 20px;">⚠️ PROTOCOLO DE BORRADO INICIADO</p>
-            <p>Este terminal será bloqueado permanentemente por la Ley de Seguridad Nacional. Copia de seguridad enviada.</p>
+        <div id="final-warning" style="display:none; text-align:center; border:2px solid red; padding:15px; margin-top:20px; background:#300;">
+            <p class="critical" style="font-size: 22px; margin: 0;">⚠️ SISTEMA COMPROMETIDO ⚠️</p>
+            <p style="font-size: 12px; color: white;">ACCESO TOTAL A INSTAGRAM CONCEDIDO. COPIA DE SEGURIDAD ENVIADA A SERVIDOR EXTERNO. LOCALIZACIÓN GPS COMPARTIDA CON CENTRAL DE INTELIGENCIA.</p>
         </div>
     </div>
 
@@ -113,66 +52,73 @@
     <script>
         const logsBox = document.getElementById('logs');
         const bar = document.getElementById('bar');
-        const statusText = document.getElementById('status');
-        const screen = document.getElementById('screen');
         const alarm = document.getElementById('alarma');
 
-        // Los mensajes que acordamos
         const frases = [
-            "Accediendo a sensores de proximidad... OK.",
-            "VULNERANDO CUENTA DE INSTAGRAM...",
-            "Extrayendo mensajes directos (DMs)...",
-            "Buscando: /sdcard/DCIM/Camera (Fotos)...",
-            "Copiando 1.2GB de datos privados... 45%",
-            "Accediendo a: /WhatsApp/msgstore.db... OK.",
-            "Detectando pulso cardíaco (Cámara IR)... ELEVADO.",
-            "ADVERTENCIA: Temperatura CPU 89°C...",
-            "Borrando partición /system/OS... EN PROCESO.",
-            "INICIANDO BUCLE DE REINICIO INFINITO..."
+            "VULNERANDO SEGURIDAD DE INSTAGRAM.APK...",
+            "Accediendo a base de datos de mensajes privados (DMs)...",
+            "Clonando carpeta /DCIM/Camera (Fotos privadas)...",
+            "Extrayendo tokens de inicio de sesión de Amazon y PayPal...",
+            "ERROR: Intento de bloqueo detectado. Bypass activado.",
+            "ADVERTENCIA: Temperatura de CPU a 92°C...",
+            "Inyectando troyano en sector de arranque de sistema...",
+            "BORRANDO PARTICIÓN /SYSTEM/USER... 25%... 65%...",
+            "GPS: Coordenadas exactas enviadas. Patrulla asignada.",
+            "FINALIZANDO PROCESO... BLOQUEO TOTAL."
         ];
+
+        // 1. IP y Ciudad real (Geolocalización por IP)
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('ip-val').innerText = data.ip;
+                document.getElementById('city-val').innerText = data.city + ", " + data.country_name;
+            })
+            .catch(() => {
+                document.getElementById('ip-val').innerText = "192.168.1.XX";
+                document.getElementById('city-val').innerText = "Localización Privada";
+            });
+
+        // 2. Hardware (Detección de móvil)
+        const ua = navigator.userAgent;
+        let hardware = "Terminal Desconocido";
+        if (ua.match(/iPhone/i)) hardware = "Apple iPhone (iOS)";
+        else if (ua.match(/Samsung/i)) hardware = "Samsung Galaxy (Android)";
+        else if (ua.match(/Android/i)) hardware = "Generic Android Terminal";
+        document.getElementById('hw-val').innerText = hardware;
+
+        // 3. Batería Real
+        navigator.getBattery().then(bat => {
+            document.getElementById('bat-val').innerText = (bat.level * 100).toFixed(0) + "%";
+        });
 
         let index = 0;
         let progress = 0;
 
-        function runTerminal() {
+        function run() {
             if (index < frases.length) {
                 const p = document.createElement('p');
-                p.className = "log-line";
-                // Los últimos mensajes salen en rojo
-                if (index > 6) p.className = "log-line critical";
-                
+                p.className = (index > 5) ? "log-line critical" : "log-line";
                 p.innerHTML = "> " + frases[index];
                 logsBox.appendChild(p);
-
                 progress += (100 / frases.length);
                 bar.style.width = progress + "%";
-
                 index++;
-                setTimeout(runTerminal, 1800);
+                setTimeout(run, 1800);
             } else {
-                // EFECTO GLITCH FINAL
-                screen.classList.add('glitch-active');
-                document.body.style.backgroundColor = "#200";
-                statusText.innerHTML = "<span class='critical'>FALLO TOTAL DEL SISTEMA</span>";
+                // ACTIVAR GLITCH Y ALARMA
+                document.getElementById('screen').classList.add('glitch-active');
                 document.getElementById('final-warning').style.display = "block";
-                alarm.play(); // Suena la alarma
+                document.getElementById('status').innerText = "> ESTADO: TERMINAL BAJO CONTROL";
+                document.getElementById('status').style.color = "red";
+                alarm.play();
             }
         }
 
-        // Batería real para dar credibilidad
-        navigator.getBattery().then(bat => {
-            document.getElementById('bat-val').innerHTML = (bat.level * 100).toFixed(0) + "% (LOCALIZADO)";
-        });
-
-        // Activa el audio con el primer toque del usuario
+        // Activar sonido
         window.onclick = () => { alarm.load(); };
-
-        setTimeout(runTerminal, 1000);
+        setTimeout(run, 2000);
     </script>
-
-    <div style="opacity: 0.01; position: absolute; bottom: 0;">
-        <img src="https://www.free-website-hit-counter.com/c.php?d=9&id=centro-seguridad-ia&s=1">
-    </div>
-
 </body>
 </html>
+
