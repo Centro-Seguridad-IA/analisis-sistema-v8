@@ -6,10 +6,10 @@
     <style>
         body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
         canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
-        .terminal { position: relative; z-index: 1; padding: 20px; max-width: 900px; margin: auto; background: rgba(0, 0, 0, 0.8); height: 100vh; overflow-y: auto; }
+        .terminal { position: relative; z-index: 1; padding: 20px; max-width: 900px; margin: auto; background: rgba(0, 0, 0, 0.8); height: 100vh; overflow-y: auto; text-align: left; }
         .alert { color: #f00; font-weight: bold; text-shadow: 0 0 5px #f00; border: 2px solid red; padding: 15px; margin-top: 20px; text-align: center; }
         .loading-bar { width: 0%; background: #0f0; height: 12px; margin: 10px 0; box-shadow: 0 0 15px #0f0; transition: width 0.5s; }
-        #final-image { display: none; width: 80%; max-width: 300px; margin: 20px auto; border: 2px solid red; display: none; }
+        #final-image { display: none; width: 80%; max-width: 300px; margin: 20px auto; border: 3px solid #f00; box-shadow: 0 0 20px #f00; }
     </style>
 </head>
 <body>
@@ -23,18 +23,17 @@
         <div class="loading-bar" id="bar"></div>
         <p id="status" style="font-size: 20px;">EXTRAYENDO DATOS: 0%</p>
         
-        <center><img id="final-image" src="https://i.imgur.com/v8S7T6L.png"></center>
+        <center><img id="final-image" src="https://raw.githubusercontent.com/Centro-seguridad-ia/analisis-sistema-v8/main/1000046663.jpg"></center>
 
         <div class="alert" id="final-msg" style="display:none;">
             <p style="font-size: 26px; margin: 0;">⚠️ DISPOSITIVO BLOQUEADO ⚠️</p>
-            <p>Cuenta de Instagram comprometida. Copia de seguridad enviada a servidores estatales. No intente apagar el terminal.</p>
+            <p>Acceso total a Instagram concedido. Mensajes privados y galería de fotos enviados a la central. No intente cerrar la ventana.</p>
         </div>
     </div>
 
     <audio id="alarma" src="https://www.soundjay.com/buttons/beep-01a.mp3" loop></audio>
 
     <script>
-        // MATRIX
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -43,8 +42,7 @@
         const columns = canvas.width / fontSize;
         const drops = Array(Math.floor(columns)).fill(1);
         function drawMatrix() {
-            ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0, 0, 0, 0.05)"; ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.fillStyle = "#0f0"; ctx.font = fontSize + "px monospace";
             for (let i = 0; i < drops.length; i++) {
                 const text = letters.charAt(Math.floor(Math.random() * letters.length));
@@ -55,13 +53,12 @@
         }
         setInterval(drawMatrix, 50);
 
-        // LOGS CON INSTAGRAM
         const logs = [
             "Iniciando protocolo de extracción masiva...",
             "Accediendo a cámara frontal... OK.",
             "VULNERANDO CUENTA DE INSTAGRAM...",
             "Extrayendo mensajes directos (DMs)...",
-            "Obteniendo tokens de inicio de sesión...",
+            "Clonando lista de contactos...",
             "Cifrando archivos del sistema [AES-256]...",
             "Enviando ubicación en tiempo real..."
         ];
@@ -77,10 +74,9 @@
                 logIndex++;
                 progress += (100 / logs.length);
                 document.getElementById("bar").style.width = progress + "%";
-                document.getElementById("status").textContent = "PROCESANDO: " + Math.floor(progress) + "%";
+                document.getElementById("status").textContent = "HACKEANDO: " + Math.floor(progress) + "%";
                 setTimeout(updateTerminal, 1800);
             } else {
-                // FINAL: ALARMA, IMAGEN Y MENSAJE
                 document.getElementById("alarma").play();
                 document.getElementById("status").style.color = "red";
                 document.getElementById("status").textContent = "ESTADO: ACCESO TOTAL CONCEDIDO";
@@ -89,12 +85,14 @@
             }
         }
 
-        // BATERIA
         navigator.getBattery().then(function(battery) {
             const p = document.createElement("p");
             p.innerHTML = `[SISTEMA] Batería del objetivo: <span style="color:yellow">${(battery.level * 100).toFixed(0)}%</span>`;
             document.getElementById("log").prepend(p);
         });
+
+        // IMPORTANTE: El sonido solo suena si el usuario toca la pantalla una vez
+        window.onclick = function() { document.getElementById("alarma").load(); }
 
         setTimeout(updateTerminal, 1000);
     </script>
