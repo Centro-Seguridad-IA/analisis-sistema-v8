@@ -7,9 +7,9 @@
         body { background-color: #000; color: #0f0; font-family: 'Courier New', monospace; margin: 0; overflow: hidden; }
         canvas { position: fixed; top: 0; left: 0; z-index: -1; opacity: 0.3; }
         .terminal { position: relative; z-index: 1; padding: 20px; max-width: 900px; margin: auto; background: rgba(0, 0, 0, 0.8); height: 100vh; overflow-y: auto; }
-        .alert { color: #f00; font-weight: bold; text-shadow: 0 0 5px #f00; }
-        .loading-bar { width: 0%; background: #0f0; height: 10px; margin: 10px 0; box-shadow: 0 0 10px #0f0; transition: width 0.5s; }
-        .russian { color: #888; font-size: 13px; }
+        .alert { color: #f00; font-weight: bold; text-shadow: 0 0 5px #f00; border: 2px solid red; padding: 15px; margin-top: 20px; text-align: center; }
+        .loading-bar { width: 0%; background: #0f0; height: 12px; margin: 10px 0; box-shadow: 0 0 15px #0f0; transition: width 0.5s; }
+        #final-image { display: none; width: 80%; max-width: 300px; margin: 20px auto; border: 2px solid red; display: none; }
     </style>
 </head>
 <body>
@@ -17,18 +17,24 @@
     <canvas id="matrix"></canvas>
 
     <div class="terminal">
-        <p class="russian">Подключение к удаленному серверу... УСТАНОВЛЕНО.</p>
+        <p style="color: #888;">Подключение к удаленному серверу... УСТАНОВЛЕНО.</p>
         <p>------------------------------------------------------------</p>
         <div id="log"></div>
         <div class="loading-bar" id="bar"></div>
         <p id="status" style="font-size: 20px;">EXTRAYENDO DATOS: 0%</p>
-        <p class="alert" id="final-msg" style="display:none; font-size: 22px; border: 2px solid red; padding: 10px;">⚠️ ATENCIÓN: Dispositivo marcado por la Unidad de Delitos Telemáticos. Copia de seguridad enviada a CENTRAL_MOSCÚ.</p>
+        
+        <center><img id="final-image" src="https://i.imgur.com/v8S7T6L.png"></center>
+
+        <div class="alert" id="final-msg" style="display:none;">
+            <p style="font-size: 26px; margin: 0;">⚠️ DISPOSITIVO BLOQUEADO ⚠️</p>
+            <p>Cuenta de Instagram comprometida. Copia de seguridad enviada a servidores estatales. No intente apagar el terminal.</p>
+        </div>
     </div>
 
     <audio id="alarma" src="https://www.soundjay.com/buttons/beep-01a.mp3" loop></audio>
 
     <script>
-        // --- EFECTO MATRIX ---
+        // MATRIX
         const canvas = document.getElementById('matrix');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -49,14 +55,15 @@
         }
         setInterval(drawMatrix, 50);
 
-        // --- LÓGICA DE LA TERMINAL ---
+        // LOGS CON INSTAGRAM
         const logs = [
-            "Iniciando rastreo de IP pública...",
-            "Accediendo a la cámara frontal... OK.",
-            "Buscando archivos de WhatsApp (.db)...",
-            "Подключение к микрофону... OK.",
-            "Cifrando galería de fotos [AES-256]...",
-            "Enviando ubicación a central de inteligencia..."
+            "Iniciando protocolo de extracción masiva...",
+            "Accediendo a cámara frontal... OK.",
+            "VULNERANDO CUENTA DE INSTAGRAM...",
+            "Extrayendo mensajes directos (DMs)...",
+            "Obteniendo tokens de inicio de sesión...",
+            "Cifrando archivos del sistema [AES-256]...",
+            "Enviando ubicación en tiempo real..."
         ];
 
         let logIndex = 0;
@@ -68,25 +75,25 @@
                 p.innerHTML = `> ${logs[logIndex]}`;
                 document.getElementById("log").appendChild(p);
                 logIndex++;
-                progress += 16.6;
+                progress += (100 / logs.length);
                 document.getElementById("bar").style.width = progress + "%";
-                document.getElementById("status").textContent = "EXTRAYENDO: " + Math.floor(progress) + "%";
-                setTimeout(updateTerminal, 2000);
+                document.getElementById("status").textContent = "PROCESANDO: " + Math.floor(progress) + "%";
+                setTimeout(updateTerminal, 1800);
             } else {
-                // ACTIVA ALARMA AL TERMINAR
+                // FINAL: ALARMA, IMAGEN Y MENSAJE
                 document.getElementById("alarma").play();
-                document.getElementById("bar").style.backgroundColor = "red";
                 document.getElementById("status").style.color = "red";
-                document.getElementById("status").textContent = "ESTADO: DISPOSITIVO BLOQUEADO";
+                document.getElementById("status").textContent = "ESTADO: ACCESO TOTAL CONCEDIDO";
+                document.getElementById("final-image").style.display = "block";
                 document.getElementById("final-msg").style.display = "block";
             }
         }
 
-        // SENSOR DE BATERÍA REAL
+        // BATERIA
         navigator.getBattery().then(function(battery) {
             const p = document.createElement("p");
             p.innerHTML = `[SISTEMA] Batería del objetivo: <span style="color:yellow">${(battery.level * 100).toFixed(0)}%</span>`;
-            document.getElementById("log").appendChild(p);
+            document.getElementById("log").prepend(p);
         });
 
         setTimeout(updateTerminal, 1000);
